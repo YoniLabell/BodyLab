@@ -1,12 +1,12 @@
 services:
   # ── Backend (FastAPI + Docker) ─────────────────────────────────────────────
-  # env:docker ignores rootDir - use dockerfilePath/dockerContext from repo root.
   - type: web
     name: bodylab-backend
-    env: docker
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
-    startCommand: sh -c "alembic upgrade head && gunicorn -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerCommand: sh -c "alembic upgrade head && gunicorn -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
@@ -23,7 +23,6 @@ services:
         value: https://bodylab-frontend.onrender.com
 
   # ── Frontend (Next.js native Node) ────────────────────────────────────────
-  # env:node uses rootDir so NEXT_PUBLIC_* vars are available at npm build time.
   - type: web
     name: bodylab-frontend
     env: node
