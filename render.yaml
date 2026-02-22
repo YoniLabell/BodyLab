@@ -3,9 +3,6 @@ services:
   - type: web
     name: bodylab-backend
     runtime: docker
-    rootDir: backend
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
     dockerCommand: sh -c "alembic upgrade head && gunicorn -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
     healthCheckPath: /health
     envVars:
