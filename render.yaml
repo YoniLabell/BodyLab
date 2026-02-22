@@ -24,8 +24,8 @@ services:
     name: bodylab-frontend
     env: node
     rootDir: frontend
-    buildCommand: npm ci && npm run build
-    startCommand: npm start
+    buildCommand: npm install && npm run build
+    startCommand: npx next start -p $PORT
     envVars:
       - key: NEXT_PUBLIC_API_BASE_URL
         value: https://bodylab-backend.onrender.com
